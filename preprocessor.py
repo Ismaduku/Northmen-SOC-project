@@ -19,13 +19,18 @@ for asset in asset_inventory:
 
 print()
 print()
+critical_assets = []
 print(f"High criticality assets:") 
 for asset in asset_inventory:
     if asset[3] == "High": 
+        critical_assets.append(asset)
+       
         print(f"Hostname: {asset[0]} – IP Address: {asset[1]}")
-print()
 
+print()
+print()
 print("Processing login attempts...")
+print()
 print()
 print("Failed attempts:")
 
@@ -35,8 +40,6 @@ with open(log_file, "r") as file:
     for line in file:
         if "Failed password" in line:
             print(line.strip())
-
-print()
 
 failed_attempts = 0
 successful_attempts = 0
@@ -51,6 +54,7 @@ for line in file:
     elif "Accepted password" in line:
         successful_attempts += 1
 
+print()
 print(f"Total login attempts: {failed_attempts + successful_attempts}")
 print("Successful attempts:", successful_attempts)
 print(f"Suspicious attempts: {failed_attempts}")
@@ -75,7 +79,7 @@ for line in file:
 for ip, attempts in failed_ips.items(): 
     if attempts >= 3: # threshold for alerting the SOC team (if it is 3 or more login attempts)
     
-        print(f"ALERT: {ip} has {attempts} failed login attempts! Potential brute-force attack detected. ALERT the SOC team immediately!")
+        print(f"ALERT: {ip} has {attempts} failed login attempts on critical asset! Potential brute-force attack detected. ALERT the SOC team immediately!")
 
 print()
 
