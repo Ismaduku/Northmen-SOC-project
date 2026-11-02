@@ -15,17 +15,19 @@ for line in file:
     asset_inventory.append(asset)
 
 for asset in asset_inventory:
-    print("Hostname:", asset[0], "– IP Address:", asset[1], "– Owner:", asset[2], "– Criticality:", asset[3])
+    print("Hostname:", asset[0], "\n" + "IP Address:", asset[1], "\n" + "Criticality:", asset[2])
+    print()
 
 print()
 print()
 critical_assets = []
 print(f"High criticality assets:") 
 for asset in asset_inventory:
-    if asset[3] == "High": 
+    if asset[2] == "High": 
         critical_assets.append(asset)
        
-        print(f"Hostname: {asset[0]} – IP Address: {asset[1]}")
+        print("Hostname:", asset[0], "\n" + "IP Address:", asset[1], "\n" + "Criticality:", asset[2])
+        print()
 
 print()
 print()
@@ -36,28 +38,26 @@ print("Failed attempts:")
 
 log_file = "logs/auth.log"
 
-with open(log_file, "r") as file:
-    for line in file:
-        if "Failed password" in line:
-            print(line.strip())
 
 failed_attempts = 0
 successful_attempts = 0
 
-
 file = open(log_file, "r")
 for line in file:
-    if "Failed password" in line: 
+    if "Failed password" in line:
+        print(line.strip())
 
+    if "Failed password" in line: 
         failed_attempts += 1
                     
     elif "Accepted password" in line:
         successful_attempts += 1
 
 print()
-print(f"Total login attempts: {failed_attempts + successful_attempts}")
+print(f"Failed attempts: {failed_attempts}")
 print("Successful attempts:", successful_attempts)
-print(f"Suspicious attempts: {failed_attempts}")
+print(f"Total login attempts: {failed_attempts + successful_attempts}")
+
       
 print()
 
@@ -77,13 +77,12 @@ print()
 print()
 
 print("Suspicious activitty detected: ")
-print()
 for ip, attempts in failed_ips.items(): 
     if attempts >= 3: #threshold for alerting the SOC team (if it is 3 or more login attempts)
         for asset in asset_inventory:
             if asset[1] == ip:
-                print(f"ALERT: {ip} ({asset[0]}) has {attempts} failed login attempts! Potential cyber attack detected. ALERT the SOC team immediately! CRITICALITY: {asset[3]}")
-    print() 
+                print(f"ALERT: {ip} ({asset[0]}) has {attempts} failed login attempts!" + "\n" + f"Potential cyber attack detected ALERT the SOC team immediately!" + "\n" + f"CRITICALITY: {asset[2]}")
+                print() 
    
 print()
 
