@@ -4,5 +4,3 @@ NORTHMEN-PC01,192.168.1.70,Medium
 NORTHMEN-MAILSERVER,192.168.1.80,High
 NORTHMEN-FILESERVER,192.168.1.90,High
 NORTHMEN-PC02,192.168.1.100,Low
-
-#these are scaleable and can be extended with more collumns/info
