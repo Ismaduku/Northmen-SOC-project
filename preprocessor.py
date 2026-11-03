@@ -66,7 +66,10 @@ failed_ips = {}
 file = open(log_file, "r")
 for line in file:
     if "Failed password" in line:
-        ip = line.split(" – ")[2].split(" ")[0] #extract the IP address from the log line
+        source_ip = line.split(" – ")[2]
+        target_ip = line.split(" – ")[3].split(" ")[0]
+
+        ip = source_ip + "," + target_ip
 
         if ip in failed_ips:    
             failed_ips[ip] += 1
@@ -74,15 +77,20 @@ for line in file:
             failed_ips[ip] = 1
 print()
 print()
-print()
 
-print("Suspicious activitty detected: ")
+print("Suspicious activitty detected(surpassing the threshold of 3): ")
 for ip, attempts in failed_ips.items(): 
     if attempts >= 3: #threshold for alerting the SOC team (if it is 3 or more login attempts)
+        
+        source_ip = ip.split(",")[0]
+        target_ip = ip.split(",")[1]
+        
         for asset in asset_inventory:
-            if asset[1] == ip:
-                print(f"ALERT: {ip} ({asset[0]}) has {attempts} failed login attempts!" + "\n" + f"Potential cyber attack detected ALERT the SOC team immediately!" + "\n" + f"CRITICALITY: {asset[2]}")
-                print() 
+            if asset[1] == target_ip:
+                print(f"ALERT: {source_ip} has {attempts} failed login attempts against {asset[0]} ({target_ip})")
+                print(f"CRITICALITY: {asset[2]}")
+                print(f"Potential cyber attack detected ALERT the SOC team immediately!")
+                print()
    
 print()
 
