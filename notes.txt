@@ -1,0 +1,1 @@
+git submodule update --init --remote -- person_C_contribution/Northmen-SOC-project
