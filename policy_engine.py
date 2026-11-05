@@ -1,22 +1,34 @@
 print()
-print("– NORTHMEN SOC - Policy Engine –")
-print()
 
 allowed_ips = []
 
 allow_list = open("allow_list.txt", "r")
 for line in allow_list:
     allowed_ips.append(line.strip())
+allow_list.close()
 
+alerts_file = open("alerts.csv", "r")
 
-log_file = open("logs/auth.log", "r")
-for line in log_file:
-    if "Failed password" in line:
-        source_ip = line.split(" – ")[2]
+for line in alerts_file:
 
-print("Going through security policy engine...")
+    alert = line.strip().split(",")
 
-if source_ip in allowed_ips:
-    print("POLICY: Trusted IP - Do not block")
-else:
-    print("POLICY: Untrusted IP - Block recommended")
+    source_ip = alert[0]
+    target_ip = alert[1]
+    attempts = int(alert[2])
+
+    print("Security policy engine working...")
+    print()
+
+    print("Source IP:", source_ip)
+    print("Target IP:", target_ip)
+    print("Failed attempts:", attempts)
+
+    if source_ip in allowed_ips:
+        print("POLICY: Trusted IP in allow-list - Do not block")
+    else:
+        print("POLICY: Untrusted IP not in allow-list - Review for blocking")
+
+    print()
+
+alerts_file.close()
