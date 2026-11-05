@@ -1,6 +1,6 @@
 print()
 print()
-print("NORTHMEN SOC - Security Monitoring Program")
+print("– NORTHMEN SOC - Security Monitoring Program –")
 print()
 print()
 print()
@@ -84,15 +84,31 @@ for ip, attempts in failed_ips.items():
         
         source_ip = ip.split(",")[0]
         target_ip = ip.split(",")[1]
-        
+
+        alerts_file = open("alerts.csv", "w")
+
         for asset in asset_inventory:
             if asset[1] == target_ip:
                 print(f"ALERT: {source_ip} has {attempts} failed login attempts against {asset[0]} ({target_ip})")
                 print(f"CRITICALITY: {asset[2]}")
                 print(f"Potential cyber attack detected ALERT the SOC team immediately!")
                 print()
+                alerts_file.write(f"{source_ip},{target_ip},{attempts}\n")
+
+
+"""alerts_file = open("alerts.csv", "w")
+
+for ip, attempts in failed_ips.items():
+    if attempts >= 3:
+
+        source_ip = ip.split(",")[0]
+        target_ip = ip.split(",")[1]
+
+        alerts_file.write(f"{source_ip},{target_ip},{attempts}\n")
+
+
    
-print()
+print()"""""
 
 
 
