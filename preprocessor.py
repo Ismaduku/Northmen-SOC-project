@@ -1,6 +1,6 @@
 print()
 print()
-print("– NORTHMEN SOC - Security Monitoring Program –")
+print("– NORTHMEN SOC Security Monitoring Program –")
 print()
 print()
 print()
@@ -15,7 +15,7 @@ for line in file:
     asset_inventory.append(asset)
 
 for asset in asset_inventory:
-    print("Hostname:", asset[0], "\n" + "IP Address:", asset[1], "\n" + "Criticality:", asset[2])
+    print("Hostname:", asset[0], "\n" + "IP-address:", asset[1], "\n" + "Criticality:", asset[2])
     print()
 
 print()
@@ -26,15 +26,14 @@ for asset in asset_inventory:
     if asset[2] == "High": 
         critical_assets.append(asset)
        
-        print("Hostname:", asset[0], "\n" + "IP Address:", asset[1], "\n" + "Criticality:", asset[2])
-        print()
+        print(f"IP Address: {asset[1]}({asset[0]})")
 
 print()
 print()
 print("Processing login attempts...")
 print()
 print()
-print("Failed attempts:")
+print("Failed attempts of login (format: Timestamp, Status, Source IP, Target IP):")
 
 log_file = "logs/auth.log"
 
@@ -94,7 +93,7 @@ for ip, attempts in failed_ips.items():
             if asset[1] == target_ip:
                 print(f"ALERT: {source_ip} has {attempts} failed login attempts against {asset[0]} ({target_ip})")
                 print(f"CRITICALITY: {asset[2]}")
-                print(f"Potential cyber attack detected ALERT the SOC team immediately!")
+                print(f"Potential cyber attack detected alert the SOC team immediately!")
                 print()
                 
                 alerts_file.write(f"{source_ip},{target_ip},{attempts}\n")
